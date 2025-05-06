@@ -100,12 +100,12 @@ if __name__ == "__main__":
     g.add_edge('G', 'F', 1)
 
     paths_to_find = [
-        ('A', 'F', 2),  # With at most 2 edges
-        ('A', 'F', 3),  # With at most 3 edges
-        ('A', 'F', 4),  # With at most 4 edges
-        ('A', 'F', 5),  # With at most 5 edges
-        ('E', 'D', 2),  # With at most 2 edges
-        ('E', 'D', 3)   # With at most 3 edges
+        ('A', 'F', 2),
+        ('A', 'F', 3),
+        ('A', 'F', 4),
+        ('A', 'F', 5),
+        ('E', 'D', 2),
+        ('E', 'D', 3)
     ]
     
     for start, end, k in paths_to_find:
