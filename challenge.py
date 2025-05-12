@@ -62,7 +62,7 @@ class Graph:
                     continue
                 new_dist = dist + weight
                 new_edges = edges_used + 1
-                # if a neighbor is not in the adjacency list,
+                # if a neighbor is not in the visited list,
                 # add it
                 if neighbor not in visited:
                     visited[neighbor] = {}
@@ -78,7 +78,7 @@ class Graph:
         # return infinity which is an 'impossible' distance
         return float('inf'), []
 
-    def floyds_with_k_indexes(self, k=None) -> list[list[float]]:
+    def floyds_with_k_indexes(self, k) -> list[list[float]]:
         """
         Implement Floyd's algorithm to find shortest paths with only k intermediate indexes.
         """
@@ -87,12 +87,8 @@ class Graph:
         # floyds will create a matrix so we just iterate over all combinations
         nodes = list(self.adj_list.keys())
         n = len(nodes)
-        # if no k is given, we can just use all of the nodes
-        if k is None:
-            k = n
-        else:
-            # if k is bigger than n, set k to n
-            k = min(k, n)
+        # if k is bigger than n, set k to n
+        k = min(k, n)
         # initialize weight matrix
         dist = [[float('inf')] * n for _ in range(n)]
         # all diagonal values should be zero
@@ -109,6 +105,7 @@ class Graph:
                 end_idx = nodes.index(end)
                 dist[start_idx][end_idx] = weight
         # core floyd's implementation
+        # intermediate keeps track of how far away we can get
         for intermediate in range(k):
             # create a copy of the matrix to avoid using updates to the original
             new_dist = [row[:] for row in dist]
@@ -123,7 +120,7 @@ class Graph:
             dist = new_dist
         return dist
 
-def run_dijkstras(g: Graph) -> None:
+def run_dijkstras(g: Graph, k) -> None:
 
     i=1
     # for each node, run the algorithm for all possible pairs
@@ -131,7 +128,6 @@ def run_dijkstras(g: Graph) -> None:
         # start at one to prevent self pairings
         # the inner loop needs to shift the starting index to be start+1
         for end in list(g.adj_list.keys())[i:len(g.adj_list)]:
-            k=1
             dist, path = g.dijsktras_with_k_edges(start, end, k)
             if dist == float('inf'):
                 print(f"No path from {start} to {end} using at most {k} edges")
@@ -165,5 +161,5 @@ if __name__ == "__main__":
     g.add_edge('C','D', -3)
     g.add_edge('D','E', 2)
     # i is used to prevent duplicate node pairs
-    run_dijkstras(g)
-    run_floyds(g, 3)
+    run_dijkstras(g, 0)
+    run_floyds(g, 0)
